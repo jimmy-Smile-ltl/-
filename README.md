@@ -25,8 +25,8 @@ $\text{Weather Score} = w_{\text{weather}} \cdot S_{\text{weather}} + w_{\text{t
 
   - 温度、湿度、风速在舒适范围内。
   - 无强降水、强风、极端天气现象。
-  - 温度：$T_{\text{ideal}} = [18, 26]$。
-  - 湿度：$H_{\text{ideal}} = [40, 60]$。
+  - 温度：$T_{\text{ideal}}$ = [18, 26]。
+  - 湿度：$H_{\text{ideal}}$ = [40, 60]。
   - 最大理想风速：$W_{\text{max}} = 20$ km/h。
 
 - **恶劣天气**：
@@ -42,7 +42,7 @@ $\text{Weather Score} = w_{\text{weather}} \cdot S_{\text{weather}} + w_{\text{t
 
   根据天气情况（如晴、多云、小雨等）映射评分：
 
-  $S_{\text{weather}} = f_{\text{weather}}(\text{text\_day})$
+  $S_{\text{weather}} = f_{\text{weather}}(\text{text-day})$
 
   其中：
 
@@ -52,12 +52,12 @@ $\text{Weather Score} = w_{\text{weather}} \cdot S_{\text{weather}} + w_{\text{t
 
   基于理想温度范围（$T_{\text{ideal}} = [T_{\text{low}}, T_{\text{high}}]$）计算：
 
-  $S_{\text{temperature}} = \max\left(0, 1 - \frac{|T_{\text{avg}} - T_{\text{ideal\_avg}}|}{10}\right)$
+  $S_{\text{temperature}} = \max\left(0, 1 - \frac{|T_{\text{avg}} - T_{\text{ideal-avg}}|}{10}\right)$
 
   其中：
 
   - $T_{\text{avg}} = \frac{T_{\text{high}} + T_{\text{low}}}{2}$：日均温度。
-  - $T_{\text{ideal\_avg}} = \frac{T_{\text{low}} + T_{\text{high}}}{2}$：理想日均温度。
+  - $T_{\text{idealavg}} = \frac{T_{\text{low}} + T_{\text{high}}}{2}$：理想日均温度。
 
   ##### **（3）降水评分** #####
 
@@ -74,12 +74,12 @@ $\text{Weather Score} = w_{\text{weather}} \cdot S_{\text{weather}} + w_{\text{t
 
   基于理想湿度范围（$H_{\text{ideal}} = [H_{\text{low}}, H_{\text{high}}]$）计算：
 
-  $S_{\text{humidity}} = \max\left(0, 1 - \frac{|H - H_{\text{ideal\_avg}}|}{50}\right)$
+  $S_{\text{humidity}} = \max\left(0, 1 - \frac{|H - H_{\text{ideal-avg}}|}{50}\right)$
 
   其中：
 
   - $H$：实际湿度（单位：%）。
-  - $H_{\text{ideal\_avg}} = \frac{H_{\text{low}} + H_{\text{high}}}{2}$：理想平均湿度。
+  - $H_{\text{ideal-avg}} = \frac{H_{\text{low}} + H_{\text{high}}}{2}$：理想平均湿度。
 
   ##### **（5）风速评分** #####
 
@@ -111,6 +111,7 @@ $\text{Weather Score} = w_{\text{weather}} \cdot S_{\text{weather}} + w_{\text{t
 `https://seniverse.yuque.com/hyper_data/api_v3/sl6gvt`
 
 ```json
+
     "daily": [{                          //返回指定days天数的结果
       "date": "2015-09-20",              //日期（该城市的本地时间）
       "text_day": "多云",                //白天天气现象文字
@@ -159,7 +160,6 @@ def is_weekend(self, date):
 五大场景：
 
  不同场景骑手结构 单量越大，高kpi越多  总的骑手结构：高kpi：中kpi：低kpi=0.3:0.4:0.3
-
 - 正常天气+工作日 ：高kpi：中kpi：低kpi=0.20:0.4:0.40
 - 恶劣天气+工作日 ：高kpi：中kpi：低kpi=0.25:0.4:0.35
 - 正常天气+周末 ：     高kpi：中kpi：低kpi=0.30:0.4:0.30
@@ -218,11 +218,9 @@ scenario_params ={
   - **单身或年轻**的骑手可能更倾向于夜班（时间灵活）。
 
 ### 1.7 确定每天所需的骑手数量与结构
-
 #### **1. 问题描述** ####
 
 第一阶段的目标是根据 7 天的订单预测，确定每天需要的骑手总人数以及优秀、良好、一般骑手的比例构成，使得：
-
 1. 每天的理论配送能力与订单需求接近，且各天的理论配送能力与订单需求比值浮动范围较小。
 2. 满足一周内骑手总人数的全局分配比例限制。
 3. 满足每日优秀、良好、一般骑手的比例限制。
@@ -273,9 +271,9 @@ $$\text{基准比值} = \frac{\text{一周总配送能力}}{\text{一周总订�
 #### **4. 理论依据** ####
 
 1. **线性规划优化**
-   在约束条件下最大化目标函数，确保每天的配送能力与订单需求比值接近，同时平衡一周内骑手的工作负担。
+    在约束条件下最大化目标函数，确保每天的配送能力与订单需求比值接近，同时平衡一周内骑手的工作负担。
 2. **资源分配原则**
-   满足每天订单量的同时，合理调整骑手结构比例，优化整体运力。
+    满足每天订单量的同时，合理调整骑手结构比例，优化整体运力。
 
 ## 2.确定每天具体有哪些骑手上班 ##
 
@@ -292,65 +290,45 @@ $$\text{基准比值} = \frac{\text{一周总配送能力}}{\text{一周总订�
 稍显复杂，时间不一样了，骑手在20个月工作经验之前，随着工作经验的增加，技术更加成熟，操作更加熟练，能完成更多单量，这一点，得到了数据支撑。
 
 ###  2.3 第二阶段如何确定每天具体有哪些骑手上班 ###
-
 #### **1. 问题描述** ####
-
 第二阶段的目标是在第一阶段确定的每天骑手总人数及优秀、良好、一般骑手构成的基础上，进一步分配具体哪些骑手上班，以最大化订单准时完成量，满足以下要求：
-
 1. 每天的骑手总人数及构成比例严格符合第一阶段的分配结果。
 2. 每个骑手一周的工作天数不超过 5 天。
 3. 每个骑手在同一天只能上班一次（即不重复分配）。
 4. 优化结果最大化订单的准时完成量，考虑不同骑手的效率和实际需求。
-
 #### **2. 目标函数** ####
-
 目标是最大化每天的订单准时完成量，具体定义为：
 $\text{Maximize: } \sum_{d=1}^{7} \left( x_{\text{excellent},d} \cdot e_{\text{excellent}} + x_{\text{good},d} \cdot e_{\text{good}} + x_{\text{average},d} \cdot e_{\text{average}} \right)$
 其中：
-
 - $x_{\text{excellent},d}, x_{\text{good},d}, x_{\text{average},d}$：第 $d$ 天实际分配的优秀、良好、一般骑手的数量。
 - $e_{\text{excellent}}, e_{\text{good}}, e_{\text{average}}$：优秀、良好、一般骑手的效率系数（分别为 40、25、15）。
 - $d \in {1, 2, \dots, 7}$：一周内的天数。
-
 #### **3. 约束条件** ####
-
 ##### **（1）每日骑手总人数约束** #####
-
 每天的骑手总人数及构成需严格符合第一阶段的分配结果：
 $\sum_{r \in \text{Riders}} x_{r,d} = \text{骑手需求}_d$
 对于优秀、良好、一般骑手分别满足：
-$$\sum_{r \in \text{Excellent\_Riders}} x_{r,d} = \text{优秀骑手数量}_d$$
-$$\sum_{r \in \text{Good\_Riders}} x_{r,d} = \text{良好骑手数量}_d$$
-$$\sum_{r \in \text{Average\_Riders}} x_{r,d} = \text{一般骑手数量}_d$$
-
+$$\sum_{r \in \text{Excellent-Riders}} x_{r,d} = \text{优秀骑手数量}_d$$
+$$\sum_{r \in \text{Good-Riders}} x_{r,d} = \text{良好骑手数量}_d$$
+$$\sum_{r \in \text{Average-Riders}} x_{r,d} = \text{一般骑手数量}_d$$
 ##### **（2）骑手工作天数约束** #####
-
 每个骑手一周的工作天数不超过 5 天：
 $\sum_{d=1}^{7} x_{r,d} \leq 5 \quad \forall r \in \text{Riders}$
-
 ##### **（3）骑手当天唯一工作约束** #####
-
 每个骑手在同一天只能上班一次：
 $x_{r,d} \in \{0, 1\} \quad \forall r \in \text{Riders}, \forall d \in \{1, 2, \dots, 7\}$
-
 ##### **（4）运力与订单需求匹配** #####
-
 每天分配的骑手总运力需至少达到订单需求：
 $x_{\text{excellent},d} \cdot e_{\text{excellent}} + x_{\text{good},d} \cdot e_{\text{good}} + x_{\text{average},d} \cdot e_{\text{average}} \geq \text{订单量}_d$
-
 #### **4. 理论依据** ####
-
 1. **线性规划优化**
-   通过约束条件确保每天具体分配的骑手满足总人数及结构要求，同时最大化订单准时完成量。
+    通过约束条件确保每天具体分配的骑手满足总人数及结构要求，同时最大化订单准时完成量。
 2. **效率优化原则**
-   优先分配效率高的骑手（优秀骑手）以提高整体准时单量，同时平衡良好和一般骑手的分配。
+    优先分配效率高的骑手（优秀骑手）以提高整体准时单量，同时平衡良好和一般骑手的分配。
 3. **公平性原则**
-   每个骑手的工作负担受限于一周最多 5 天，确保分配的公平性。
-
+    每个骑手的工作负担受限于一周最多 5 天，确保分配的公平性。
 #### **5. 总结** ####
-
 第二阶段通过线性规划的资源分配优化方法，确定了每天具体上班的骑手名单，使得：
-
 1. 每天的骑手人数及构成严格符合第一阶段的分配结果。
 2. 优化了订单准时完成量，提升了整体配送效率。
 3. 确保了骑手工作负担的公平性和合理性。
@@ -373,13 +351,13 @@ $x_{\text{excellent},d} \cdot e_{\text{excellent}} + x_{\text{good},d} \cdot e_{
 
 目标是最大化一周内所有骑手的偏好匹配总分：
 
-$\text{Maximize: } \sum_{r \in \text{Riders}} \sum_{d=1}^{7} \sum_{t \in \text{Time\_Slots}} x_{r,d,t} \cdot \text{Preference}_{r,t}$
+$\text{Maximize: } \sum_{r \in \text{Riders}} \sum_{d=1}^{7} \sum_{t \in \text{Time-Slots}} x_{r,d,t} \cdot \text{Preference}_{r,t}$
 
 其中：
 
 - $x_{r,d,t}$：二元变量，表示骑手 $r$ 在第 $d$ 天的时段 $t$ 是否工作（1 为工作，0 为不工作）。
 - $\text{Preference}_{r,t}$：骑手 $r$ 对时段 $t$ 的偏好分值（1-3 分，3 表示非常喜欢）。
-- $\text{Time\_Slots}$：包括早茶、下午茶、夜宵三个灵活时段。
+- $\text{Time-Slots}$：包括早茶、下午茶、夜宵三个灵活时段。
 
 ------
 
@@ -405,13 +383,13 @@ $\sum_{t \in \{\text{morning}, \text{afternoon}, \text{night}\}} x_{r,d,t} \leq 
 
 每个时段的骑手人数可以表示为：
 
-$$\text{Morning\_Count}_d = \sum_{r \in \text{Riders}} x_{r,d,\text{morning}}$$
-	$$\text{Afternoon\_Count}_d = \sum_{r \in \text{Riders}} x_{r,d,\text{afternoon}}$$
-	$$\text{Night\_Count}_d = \sum_{r \in \text{Riders}} x_{r,d,\text{night}}$$
+$$\text{Morning-Count}_d = \sum_{r \in \text{Riders}} x_{r,d,\text{morning}}$$
+	$$\text{Afternoon-Count}_d = \sum_{r \in \text{Riders}} x_{r,d,\text{afternoon}}$$
+	$$\text{Night-Count}_d = \sum_{r \in \text{Riders}} x_{r,d,\text{night}}$$
 
-- $\text{Morning\_Count}_d$：第 $d$ 天早茶时段的骑手人数。
-- $\text{Afternoon\_Count}_d$：第 $d$ 天下午茶时段的骑手人数。
-- $\text{Night\_Count}_d$：第 $d$ 天夜宵时段的骑手人数。
+- $\text{Morning-Count}_d$：第 $d$ 天早茶时段的骑手人数。
+- $\text{Afternoon-Count}_d$：第 $d$ 天下午茶时段的骑手人数。
+- $\text{Night-Count}_d$：第 $d$ 天夜宵时段的骑手人数。
 
 ##
 
@@ -419,26 +397,26 @@ $$\text{Morning\_Count}_d = \sum_{r \in \text{Riders}} x_{r,d,\text{morning}}$$
 
 要求早茶时段人数与下午茶时段人数相差不超过 20%，即满足：
 
-$0.8 \cdot \text{Afternoon\_Count}_d \leq \text{Morning\_Count}_d \leq 1.2 \cdot \text{Afternoon\_Count}_d$
+$0.8 \cdot \text{Afternoon-Count}_d \leq \text{Morning-Count}_d \leq 1.2 \cdot \text{Afternoon-Count}_d$
 
 **（2）早茶与夜宵时段人数比例约束**
 
 要求早茶时段人数与夜宵时段人数相差不超过 20%，即满足：
 
-$0.8 \cdot \text{Night\_Count}_d \leq \text{Morning\_Count}_d \leq 1.2 \cdot \text{Night\_Count}_d$
+$0.8 \cdot \text{Night-Count}_d \leq \text{Morning-Count}_d \leq 1.2 \cdot \text{Night-Count}_d$
 
 **（3）下午茶与夜宵时段人数比例约束** 
 
 要求下午茶时段人数与夜宵时段人数相差不超过 20%，即满足：
 
-$0.8 \cdot \text{Night\_Count}_d \leq \text{Afternoon\_Count}_d \leq 1.2 \cdot \text{Night\_Count}_d$
+$0.8 \cdot \text{Night-Count}_d \leq \text{Afternoon-Count}_d \leq 1.2 \cdot \text{Night-Count}_d$
 
 #### **4. 理论依据** 
 
 1. **比例约束的意义**
-   通过控制三个灵活时段的骑手人数比例，确保每个时段的运力需求得到均衡分配，避免某些时段骑手过多或过少的情况。
+    通过控制三个灵活时段的骑手人数比例，确保每个时段的运力需求得到均衡分配，避免某些时段骑手过多或过少的情况。
 2. **20% 的浮动范围**
-   允许一定的灵活性，使得骑手分配更具实际操作性，同时不偏离目标比例 $1:1:1$。
+    允许一定的灵活性，使得骑手分配更具实际操作性，同时不偏离目标比例 $1:1:1$。
 
 #### **5. 总结** ####
 
